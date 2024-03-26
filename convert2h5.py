@@ -15,17 +15,23 @@ _log = logging.getLogger(__name__)
 _head = struct.Struct('>HHIII')
 
 def cal_default():
+    "Default no-op calibration for 32 channels"
     R = numpy.zeros((2, 32), dtype='f8')
     R[1,:] = 1.0
     return R
 
 def cal_file(fname: str): # -> [2, 32], [units], [label]
+    "Read calibration/scaling file"
     R = cal_default()
     Es = [None]*32
     Ls = [None]*32
     with open(fname, 'r') as F:
         for i, L in enumerate(F):
             try:
+                # Lines like:
+                #  1, 0.0, 11834.3195266272, Pascal, CM1
+                #
+                # CH#, offset, slope, unit label, signal name
                 L = L.strip()
                 if len(L)==0 or L[0]=='#':
                     continue
@@ -57,6 +63,7 @@ def getargs():
     return P
 
 def peek_sizes(F):
+    "Peek at first message in a file and extract sizes"
     ps, msgid, blen, rsec, rns = _head.unpack(F.read(_head.size))
     assert ps==0x5053, ps
     assert msgid==0x4e41, msgid
@@ -67,6 +74,7 @@ def peek_sizes(F):
     return pktlen, blen//3
 
 def combine_scales(args): # -> [2, 32], Es, Ls
+    "Combine calibration and scaling into one linear transformation"
     Es = [None]*32
     Ls = [None]*32
 
@@ -103,6 +111,7 @@ def main(args):
     samp_per_block = samp_per_packet * pkt_per_block
     _log.debug('pkt_per_block = %s, samp_per_block = %s', pkt_per_block, samp_per_block)
 
+    # message layout
     _T = numpy.dtype([
         ('ps', '>u2'),
         ('msgid', '>u2'),
