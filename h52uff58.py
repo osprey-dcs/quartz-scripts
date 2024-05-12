@@ -20,10 +20,11 @@ def getargs():
                    help='Channel bit mask')
     P.add_argument('h5', help='Input HDF5')
     P.add_argument('uff', help='Output UFF58b')
+    P.add_argument('--append', action='store_true')
     return P
 
 def main(args):
-    with h5py.File(args.h5, 'r') as IN, open(args.uff, 'wb') as OUT:
+    with h5py.File(args.h5, 'r') as IN, open(args.uff, 'ab' if args.append else 'wb') as OUT:
         S = IN['adc']
         _log.info('Input shape %r', S.shape)
         assert S.ndim==2, S.shape
@@ -41,7 +42,7 @@ def main(args):
         idnum = 700 # TODO: better choices?
         bytes_per_channel = S.nbytes//S.shape[1]
         for ch in range(S.shape[1]):
-            if not (args.mask & (1<<ch)):
+            if not (args.mask & (1<<ch)) or not labels[ch]:
                 _log.debug('Skip channel %d', ch)
                 continue
             _log.info('channel %d', ch)

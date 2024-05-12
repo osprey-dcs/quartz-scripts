@@ -18,13 +18,11 @@ def cal_default():
     "Default no-op calibration for 32 channels"
     R = numpy.zeros((2, 32), dtype='f8')
     R[1,:] = 1.0
-    return R
+    return R, [None]*32, [None]*32
 
 def cal_file(fname: str): # -> [2, 32], [units], [label]
     "Read calibration/scaling file"
-    R = cal_default()
-    Es = [None]*32
-    Ls = [None]*32
+    R, Es, Ls = cal_default()
     with open(fname, 'r') as F:
         for i, L in enumerate(F):
             try:
@@ -66,12 +64,17 @@ def peek_sizes(F):
     "Peek at first message in a file and extract sizes"
     ps, msgid, blen, rsec, rns = _head.unpack(F.read(_head.size))
     assert ps==0x5053, ps
-    assert msgid==0x4e41, msgid
     pktlen = _head.size + blen
-    assert blen>=4*6, blen
-    blen -= 4*6
+    if msgid==0x4e41:
+        assert blen>=4*6, blen
+        blen -= 4*6
+    elif msgid==0x4e42:
+        assert blen>=4*10, blen
+        blen -= 4*10
+    else:
+        raise RuntimeError(f'Unsupported msgid 0x{msgid:04x}')
     assert blen%3==0, blen
-    return pktlen, blen//3
+    return msgid, pktlen, blen//3
 
 def combine_scales(args): # -> [2, 32], Es, Ls
     "Combine calibration and scaling into one linear transformation"
@@ -92,7 +95,7 @@ def combine_scales(args): # -> [2, 32], Es, Ls
     scal[0,:] = ESLO*AOFF + EOFF
 
     for i in range(32):
-        Ls[i] = lE[i] or lA[i] or f'ch{i+1}'
+        Ls[i] = lE[i] or lA[i] or ''
         Es[i] = uE[i] or uA[i] or 'adc'
 
     return scal, Es, Ls
@@ -102,7 +105,7 @@ def main(args):
 
     # peek at first header in first file assuming
     with open(args.dat[0], 'rb') as IN:
-        pktlen, samp_per_packet = peek_sizes(IN)
+        msgid, pktlen, samp_per_packet = peek_sizes(IN)
         # pktlen input bytes should yield 4*samp_per_packet output bytes
 
     _log.debug('pktlen = %s, samp_per_packet = %s', pktlen, samp_per_packet)
@@ -112,7 +115,7 @@ def main(args):
     _log.debug('pkt_per_block = %s, samp_per_block = %s', pkt_per_block, samp_per_block)
 
     # message layout
-    _T = numpy.dtype([
+    _T = [
         ('ps', '>u2'),
         ('msgid', '>u2'),
         ('blen', '>u4'),
@@ -123,8 +126,18 @@ def main(args):
         ('seq', '>u8'),
         ('sec', '>u4'),
         ('ns', '>u4'),
+    ]
+    if msgid==0x4e42:
+        _T += [
+            ('hihi', '>u4'),
+            ('hi', '>u4'),
+            ('lo', '>u4'),
+            ('lolo', '>u4'),
+        ]
+    _T += [
         ('samp', 'u1', (samp_per_packet*3,)), # packed I24
-    ])
+    ]
+    _T = numpy.dtype(_T)
     _log.debug('sizeof(T) = %s', _T.__sizeof__())
     assert _T.itemsize==pktlen, (_T.__sizeof__(), pktlen)
 
@@ -165,7 +178,7 @@ def main(args):
 
                     pkts = numpy.frombuffer(blk, dtype=_T)
                     assert numpy.all(pkts['ps']==0x5053)
-                    assert numpy.all(pkts['msgid']==0x4e41)
+                    assert numpy.all(pkts['msgid']==msgid)
                     assert numpy.all(pkts['chmask']==0xffffffff) # assume all channels enabled
 
                     # check sequence numbers
