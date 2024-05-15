@@ -86,7 +86,7 @@ def show(dat: Path):
 
     print(f'  msgid: 0x{msgid:04x}')
 
-    print(f'  T0: {time.ctime(H["sec"][0])} (0x{H["sec"][0]:08x}, 0x{H["ns"][0]:08x})')
+    print(f'  T0: {time.ctime(H["sec"][0])} (0x{H["sec"][0]:08x} , 0x{H["ns"][0]:08x} )')
     print(f'  Tr: {time.ctime(rsec)} Tr-T0: {(T0r-T0)/1e9} s')
 
     print(f'  #chan: {nchan} #samp/pkt: {nsamp} samp/chan: {samp_per_chan}')

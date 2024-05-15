@@ -28,6 +28,7 @@ def main(args):
         S = IN['adc']
         _log.info('Input shape %r', S.shape)
         assert S.ndim==2, S.shape
+        Tsamp = 1.0/S.attrs['fsamp']
         units = S.attrs['egu']
         line1 = S.attrs['name']
         line2 = S.attrs['desc']
@@ -37,9 +38,6 @@ def main(args):
 
         T0 = S.attrs['T0']
         Tzero = time.strftime('%d-%b-%y %H:%M:%S', time.gmtime(T0))
-
-        Tsamp = 1/250e3
-        Tsamp *= 10
 
         bytes_per_channel = S.nbytes//S.shape[1]
         for ch in range(S.shape[1]):

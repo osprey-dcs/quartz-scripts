@@ -62,7 +62,9 @@ def main(args):
             R[S['Address']['Channel']-1] = S.get(k, defval)
         return R
 
-    attrs = {}
+    attrs = {
+        'fsamp': Fsamp,
+    }
     attrs['scale'] = scale = numpy.ndarray((2,32), dtype='f4')
     scale[0, :] = key2arr('Intercept', 0.0)
     scale[1, :] = key2arr('Slope'    , 1.0)
