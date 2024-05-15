@@ -5,6 +5,7 @@ import os
 import time
 import struct
 import logging
+import json
 from pathlib import Path
 
 import numpy
@@ -14,46 +15,16 @@ _log = logging.getLogger(__name__)
 
 _head = struct.Struct('>HHIII')
 
-def cal_default():
-    "Default no-op calibration for 32 channels"
-    R = numpy.zeros((2, 32), dtype='f8')
-    R[1,:] = 1.0
-    return R, [None]*32, [None]*32
-
-def cal_file(fname: str): # -> [2, 32], [units], [label]
-    "Read calibration/scaling file"
-    R, Es, Ls = cal_default()
-    with open(fname, 'r') as F:
-        for i, L in enumerate(F):
-            try:
-                # Lines like:
-                #  1, 0.0, 11834.3195266272, Pascal, CM1
-                #
-                # CH#, offset, slope, unit label, signal name
-                L = L.strip()
-                if len(L)==0 or L[0]=='#':
-                    continue
-                cols = [e.strip() for e in L.split(',')]
-                idx, off, slo = cols[:3]
-                idx = int(idx)-1
-                if len(cols)>3:
-                    Es[idx] = cols[3]
-                if len(cols)>4:
-                    Ls[idx] = cols[4]
-                R[:, idx] = (off, slo)
-            except:
-                _log.exception(f"{fname} on line {i+1}")
-                raise
-    return R, Es, Ls
-
 def getargs():
+    def jfile(fname):
+        with open(fname, 'r') as F:
+            return json.load(F)
     from argparse import ArgumentParser
     P = ArgumentParser()
-    P.add_argument('--calib', type=cal_file, default=cal_default())
-    P.add_argument('--scale', type=cal_file, default=cal_default())
-    P.add_argument('--freq', type=float, default=250e3,
-                   help='Sampling frequency')
-    P.add_argument('--title')
+    P.add_argument('-J', '--json', dest='jinfo', type=jfile, default={'Signals':[]},
+                   help='JSON acquisition info file')
+    P.add_argument('-C', '--chassis', type=int, default=1,
+                   help='Chassis number (1 indexed)')
     P.add_argument('-o', '--output')
     P.add_argument('dat', nargs='+',
                    help='.dat files')
@@ -76,32 +47,29 @@ def peek_sizes(F):
     assert blen%3==0, blen
     return msgid, pktlen, blen//3
 
-def combine_scales(args): # -> [2, 32], Es, Ls
-    "Combine calibration and scaling into one linear transformation"
-    Es = [None]*32
-    Ls = [None]*32
-
-    A, uA, lA = args.calib
-    E, uE, lE = args.scale
-    # V = ASLO*ADC + AOFF
-    # EU= ESLO*V   + EOFF
-    #
-    # EU= ESLO*(ASLO*ADC + AOFF) + EOFF
-    # EU= (ESLO*ASLO)*ADC + (ESLO*AOFF + EOFF)
-    AOFF, ASLO = A[0,:], A[1,:]
-    EOFF, ESLO = E[0,:], E[1,:]
-    scal = numpy.ndarray(E.shape, dtype=E.dtype)
-    scal[1,:] = ESLO*ASLO
-    scal[0,:] = ESLO*AOFF + EOFF
-
-    for i in range(32):
-        Ls[i] = lE[i] or lA[i] or ''
-        Es[i] = uE[i] or uA[i] or 'adc'
-
-    return scal, Es, Ls
-
 def main(args):
-    scale, units, labels = combine_scales(args) # [2, 32]
+    Fsamp = args.jinfo['SampleRate']
+    assert Fsamp>=1000 and Fsamp<=250000, Fsamp
+
+    signals = [S for S in args.jinfo['Signals'] if S['Address']['Chassis']==args.chassis]
+    assert len(signals)
+    _log.info('Chassis %d has %d signals inuse', args.chassis, len(signals))
+    signals.sort(key=lambda S:S['Address']['Channel']) # sort in increasing order
+
+    def key2arr(k, defval):
+        R = [defval]*32
+        for S in signals:
+            R[S['Address']['Channel']-1] = S.get(k, defval)
+        return R
+
+    attrs = {}
+    attrs['scale'] = scale = numpy.ndarray((2,32), dtype='f4')
+    scale[0, :] = key2arr('Intercept', 0.0)
+    scale[1, :] = key2arr('Slope'    , 1.0)
+    for K in ['Egu', 'Name', 'Desc']:
+        attrs[K.lower()] = key2arr(K, '')
+    for K in ['ResponseNode', 'ResponseDirection', 'Type']:
+        attrs[K.lower()] = key2arr(K, 0)
 
     # peek at first header in first file assuming
     with open(args.dat[0], 'rb') as IN:
@@ -151,11 +119,12 @@ def main(args):
                                 maxshape=(None, 32),
         )
 
-        DS.attrs['units'] = units
-        DS.attrs['labels'] = labels
-        DS.attrs['calib'] = args.calib[0]
-        DS.attrs['scale'] = args.scale[0]
-        DS.attrs['Fsamp'] = args.freq
+        for K,V in attrs.items():
+            try:
+                DS.attrs[K] = V
+            except:
+                _log.exception('%r = %r', K, V)
+                raise
 
         idx = 0
 

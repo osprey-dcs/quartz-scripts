@@ -28,10 +28,12 @@ def main(args):
         S = IN['adc']
         _log.info('Input shape %r', S.shape)
         assert S.ndim==2, S.shape
-        units = S.attrs['units']
-        labels = S.attrs['labels']
+        units = S.attrs['egu']
+        line1 = S.attrs['name']
+        line2 = S.attrs['desc']
+        responsenode = S.attrs['responsenode']
         assert units.shape==(S.shape[1],)
-        assert labels.shape==(S.shape[1],)
+        assert line1.shape==(S.shape[1],)
 
         T0 = S.attrs['T0']
         Tzero = time.strftime('%d-%b-%y %H:%M:%S', time.gmtime(T0))
@@ -39,15 +41,17 @@ def main(args):
         Tsamp = 1/250e3
         Tsamp *= 10
 
-        idnum = 700 # TODO: better choices?
         bytes_per_channel = S.nbytes//S.shape[1]
         for ch in range(S.shape[1]):
-            if not (args.mask & (1<<ch)) or not labels[ch]:
+            if not (args.mask & (1<<ch)) or not line1[ch]:
                 _log.debug('Skip channel %d', ch)
                 continue
             _log.info('channel %d', ch)
             EGU = units[ch]
-            DESC = labels[ch]
+            NAME = line1[ch]
+            DESC = line2[ch]
+            respnode = responsenode[ch]
+            refnode = 0
             fmt = 1 # f32 real
             endian = S.dtype.byteorder
             if endian=='=':
@@ -56,10 +60,10 @@ def main(args):
 
             OUT.write(f'    -1\n    58b{endian: 6}     2          11{bytes_per_channel: 12}     0     0           0           0\n'.encode())
             # records 1-5
-            OUT.write(f'{DESC[:79]}\nNONE\n{Tzero}\nNONE\nNONE\n'.encode())
+            OUT.write(f'{NAME[:79]}\n{DESC[:79]}\n{Tzero}\nNONE\nNONE\n'.encode())
             # record 6
             # TODO: direction
-            OUT.write(f'    1         0    0         0 {EGU[:10]: <10}{idnum+ch: 10d}   0 NONE      {idnum+ch: 10d}   0\n'.encode())
+            OUT.write(f'    1         0    0         0 {EGU[:10]: <10}{respnode: 10d}   0 NONE      {refnode: 10d}   0\n'.encode())
             # record 7
             OUT.write(f'         2{S.shape[0]: 10d}         1 0.00000E+000{Tsamp:13.5e} 0.00000E+000\n'.encode())
             # record 8
