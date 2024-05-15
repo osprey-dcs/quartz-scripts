@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+
+import logging
+import io
+from pathlib import Path
+
+def getargs():
+    from argparse import ArgumentParser
+    P = ArgumentParser()
+    P.add_argument('uff', nargs='+', type=Path)
+    return P
+
+def slicel(line, cols):
+    L = [None]*len(cols)
+    pos=0
+    for i,C in enumerate(cols):
+        L[i] = line[pos:pos+C]
+        pos += C
+    return L
+
+def lsuff(F, uff:Path):
+    def readline():
+        return F.readline().rstrip(b'\n\r')
+
+    print('===', uff)
+    while True:
+        marker = readline()
+        if marker==b'':
+            break
+        assert marker==b'    -1', marker
+        line0 = readline()
+        # I6,1A1,I6,I6,I12,I12,I6,I6,I12,I12
+        type,isb,endian,fp,nline,nbyte = slicel(line0, [6, 1, 6, 6, 12, 12]) #, 6 , 6, 12 ,12])
+        assert type==b'    58' and isb==b'b', (type, isb)
+        endian, nline, nbyte = int(endian), int(nline), int(nbyte)
+        assert endian in (1,2), endian
+        be = endian==2
+
+        lines = [readline() for _i in range(nline)]
+
+        print(f'{marker.decode()}')
+        print(f'{line0.decode()}')
+        [print(f'{L.decode(errors="replace")}') for L in lines]
+
+        print(f'# ... {nbyte} bytes ...')
+        F.seek(nbyte, io.SEEK_CUR)
+
+        marker = readline()
+        assert marker==b'    -1', marker
+        print(f'{marker.decode()}')
+
+def main(args):
+    for uff in args.uff:
+        with uff.open('rb') as F:
+            lsuff(F, uff)
+
+if __name__=='__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    main(getargs().parse_args())
