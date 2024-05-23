@@ -2,3 +2,13 @@
 *.h5
 *.uff
 *.npz
+*.log
+*.csv
+*.txt
+*.UFF*
+*.ipynb
+*.doc*
+*.zip
+*.json*
+*.hdr
+*.tar.*
