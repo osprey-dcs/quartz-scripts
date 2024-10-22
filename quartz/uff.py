@@ -9,6 +9,7 @@ from fnmatch import fnmatch
 from collections import namedtuple
 
 import numpy
+import scipy.signal as sig
 
 _log = logging.getLogger(__name__)
 
@@ -120,12 +121,40 @@ class DataSet(numpy.ndarray):
             raise AttributeError(k)
 
     @property
-    def abscissa(self):
+    def abscissa(self) -> numpy.ndarray:
+        '''Return abscissa (usually timebase) array'''
         R = self._abscissa
         if R is None:
             assert self.ndim==1
             start, step = self._info['abscissa_min'], self._info['abscissa_inc']
             self._abscissa = R = numpy.arange(self.shape[0], dtype='f8')*step + start
+        return R
+
+    def slice(self, start=None, end=None) -> 'DataSet':
+        '''Return DataSet sliced along abscissa
+        '''
+        absc = self.abscissa
+        mask = numpy.logical_and(
+            absc >= start,
+            absc < end,
+        )
+        absc = absc[mask]
+
+        info = self._info.copy()
+        info['abscissa_min'] = absc[0]
+
+        R = self[mask].view(self.__class__)
+        R._info = info
+        R._abscissa = absc
+        return R
+
+    def decimate(self, n, **kws) -> 'DataSet':
+        '''Apply scipy.signal.decimate
+        '''
+        R = sig.decimate(self, n, **kws).view(self.__class__)
+        R._info = self._info.copy()
+        R._info['abscissa_inc'] *= n
+        R._abscissa = None
         return R
 
 class UFF:
