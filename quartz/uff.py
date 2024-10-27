@@ -11,6 +11,8 @@ from collections import namedtuple
 import numpy
 import scipy.signal as sig
 
+__all__ = ('UFF',)
+
 _log = logging.getLogger(__name__)
 
 _endian = {
@@ -130,6 +132,9 @@ class DataSet(numpy.ndarray):
             self._abscissa = R = numpy.arange(self.shape[0], dtype='f8')*step + start
         return R
 
+    # aka. in the most common case...
+    time = abscissa
+
     def slice(self, start=None, end=None) -> 'DataSet':
         '''Return DataSet sliced along abscissa
         '''
@@ -157,12 +162,27 @@ class DataSet(numpy.ndarray):
         R._abscissa = None
         return R
 
+    # TODO: add __round__()
+
 class UFF:
-    """Access to a UFF file containing only 58b datasets
+    """Access to a UFF file containing only 58b datasets.
+
+    Open...
+
+    >>> from quartz.uff import UFF
+    >>> U = UFF('some.uff')
+
+    Extract a single set where any ID line matches pattern "Mic*"
+
+    >>> S = U['Mic*']
+
+    Time plot
+
+    >>> plt.plot(S.time, S)
     """
     def __init__(self, file):
         self._index = []
-        if isinstance(file, str):
+        if not hasattr(file, 'readline'): # str or Path
             file = open(file, 'rb')
         self._build_index(file)
         self._fp = file
@@ -177,7 +197,7 @@ class UFF:
         self.close()
 
     def __iter__(self):
-        return iter(self._index)
+        return iter([S.info for S in self._index])
 
     def _lookup_set(self, key, first=True) -> int:
         """Lookup index from matching ID* line
@@ -237,7 +257,7 @@ class UFF:
         # unv.asc recommends searching for pairs of _marker lines
         # which requires inspecting every byte in this file right away.
         # Rather, we will incrementally read headers and skip bodies to build an index.
-        # Allows processing of very large files.
+        # Faster for very large files.
 
         index = []
 
