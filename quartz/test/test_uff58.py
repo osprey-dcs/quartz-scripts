@@ -2,14 +2,14 @@
 import unittest
 from pathlib import Path
 
-from ..uff import UFF
+from .. import open
 
 _datadir = Path(__file__).parent
 
 class TestUFF(unittest.TestCase):
     def setUp(self):
         super().setUp()
-        self.u = UFF(_datadir / 'Sample_UFF58b_bin.uff')
+        self.u = open(_datadir / 'Sample_UFF58b_bin.uff')
 
     def tearDown(self):
         del self.u

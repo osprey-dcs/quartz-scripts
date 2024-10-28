@@ -1,0 +1,624 @@
+{
+  "AcquisitionId": "mic-test",
+  "CCCR": "",
+  "CCCR_SHA256": "",
+  "SampleRate": 50000,
+  "Signals": [
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 1
+      },
+      "Name": "513-BS01-DV01-CM1",
+      "Desc": "Control Mic 1",
+      "Egu": "Pa",
+      "Slope": 0.01924772360491604,
+      "Intercept": 6.31573048880119,
+      "Coupling": "DC",
+      "ResponseNode": 101,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283702.7562,
+      "SigNum": 513,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 2
+      },
+      "Name": "514-BS02-DV02-CM2",
+      "Desc": "Control Mic 2",
+      "Egu": "Pa",
+      "Slope": 0.020084369021645895,
+      "Intercept": 2.862937428900376,
+      "Coupling": "DC",
+      "ResponseNode": 102,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283706.0034,
+      "SigNum": 514,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 3
+      },
+      "Name": "515-BS03-DV03-CM3",
+      "Desc": "Control Mic 3",
+      "Egu": "Pa",
+      "Slope": 0.020234878038005,
+      "Intercept": 2.572879056367625,
+      "Coupling": "DC",
+      "ResponseNode": 103,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283709.2507,
+      "SigNum": 515,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 4
+      },
+      "Name": "516-BS04-DV04-CM4",
+      "Desc": "Control Mic 4",
+      "Egu": "Pa",
+      "Slope": 0.018291921877704176,
+      "Intercept": 3.188120587216193,
+      "Coupling": "DC",
+      "ResponseNode": 104,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283712.4981,
+      "SigNum": 516,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 5
+      },
+      "Name": "517-BS05-DV05-CM5",
+      "Desc": "Control Mic 5",
+      "Egu": "Pa",
+      "Slope": 0.017464105904671463,
+      "Intercept": 4.22416224089804,
+      "Coupling": "DC",
+      "ResponseNode": 105,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283715.7457,
+      "SigNum": 517,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 6
+      },
+      "Name": "518-BS06-DV06-CM6",
+      "Desc": "Control Mic 6",
+      "Egu": "Pa",
+      "Slope": 0.021109700933682692,
+      "Intercept": -0.84866110971724,
+      "Coupling": "DC",
+      "ResponseNode": 106,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283718.9932,
+      "SigNum": 518,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 7
+      },
+      "Name": "519-BS07-DV07-CM7",
+      "Desc": "Control Mic 7",
+      "Egu": "Pa",
+      "Slope": 0.017058276662743337,
+      "Intercept": 0.41182248838539554,
+      "Coupling": "DC",
+      "ResponseNode": 107,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283722.2406,
+      "SigNum": 519,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 8
+      },
+      "Name": "520-BS08-DV08-CM8",
+      "Desc": "Control Mic 8",
+      "Egu": "Pa",
+      "Slope": 0.020187458147901915,
+      "Intercept": 2.3667702983631247,
+      "Coupling": "DC",
+      "ResponseNode": 108,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283725.4883,
+      "SigNum": 520,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 9
+      },
+      "Name": "521-BS09-DV09-MM1",
+      "Desc": "Monitor Mic 1",
+      "Egu": "Pa",
+      "Slope": 0.021331906655616878,
+      "Intercept": 0.8280084864122458,
+      "Coupling": "DC",
+      "ResponseNode": 201,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283728.7356,
+      "SigNum": 521,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 10
+      },
+      "Name": "522-BS10-DV10-MM2",
+      "Desc": "Monitor Mic 2",
+      "Egu": "Pa",
+      "Slope": 0.018757325553508144,
+      "Intercept": 0.555435867051115,
+      "Coupling": "DC",
+      "ResponseNode": 202,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283731.983,
+      "SigNum": 522,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 11
+      },
+      "Name": "523-BS11-DV11-MM3",
+      "Desc": "Monitor Mic 3",
+      "Egu": "Pa",
+      "Slope": 0.021024097103113464,
+      "Intercept": 2.023805600725735,
+      "Coupling": "DC",
+      "ResponseNode": 203,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283735.2306,
+      "SigNum": 523,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 12
+      },
+      "Name": "524-BS12-DV12-MM4",
+      "Desc": "Monitor Mic 4",
+      "Egu": "Pa",
+      "Slope": 0.020757394551977396,
+      "Intercept": 1.8911660840601225,
+      "Coupling": "DC",
+      "ResponseNode": 204,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283738.478,
+      "SigNum": 524,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 13
+      },
+      "Name": "525-BS13-DV13-MM5",
+      "Desc": "Monitor Mic 5",
+      "Egu": "Pa",
+      "Slope": 0.020997731163350217,
+      "Intercept": 0.23648341600474249,
+      "Coupling": "DC",
+      "ResponseNode": 205,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283741.7254,
+      "SigNum": 525,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 14
+      },
+      "Name": "526-BS14-DV14-PACS",
+      "Desc": "ACS Program, Master Drive",
+      "Egu": "V",
+      "Slope": 1.6190283059493e-06,
+      "Intercept": 0.00030501906525945,
+      "Coupling": "DC",
+      "ResponseNode": 1000,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283744.9729,
+      "SigNum": 526,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 15
+      },
+      "Name": "527-BS15-DV15-P6183",
+      "Desc": "M6183 Program",
+      "Egu": "V",
+      "Slope": 1.6188053029025e-06,
+      "Intercept": 0.00011794927101109,
+      "Coupling": "DC",
+      "ResponseNode": 1006183,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283748.2205,
+      "SigNum": 527,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 16
+      },
+      "Name": "528-BS16-DV16-P6184",
+      "Desc": "M6184 Program",
+      "Egu": "V",
+      "Slope": 1.6191437981461e-06,
+      "Intercept": 0.00049188457091184,
+      "Coupling": "DC",
+      "ResponseNode": 1006184,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283751.468,
+      "SigNum": 528,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 17
+      },
+      "Name": "529-BS17-DV17-P6185",
+      "Desc": "M6185 Program",
+      "Egu": "V",
+      "Slope": 1.6192229197001e-06,
+      "Intercept": 6.2946148864633e-05,
+      "Coupling": "DC",
+      "ResponseNode": 1006185,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283754.7155,
+      "SigNum": 529,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 18
+      },
+      "Name": "530-BS18-DV18-P6186",
+      "Desc": "M6186 Program",
+      "Egu": "V",
+      "Slope": 1.6192639214678e-06,
+      "Intercept": 0.00012717589287743,
+      "Coupling": "DC",
+      "ResponseNode": 1006186,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283757.9629,
+      "SigNum": 530,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 19
+      },
+      "Name": "531-BS19-DV19-P6187",
+      "Desc": "M6187 Program",
+      "Egu": "V",
+      "Slope": 1.6192454786586e-06,
+      "Intercept": -7.699640977553e-05,
+      "Coupling": "DC",
+      "ResponseNode": 1006187,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283761.2103,
+      "SigNum": 531,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 20
+      },
+      "Name": "532-BS20-DV20-P6188",
+      "Desc": "M6188 Program",
+      "Egu": "V",
+      "Slope": 1.6190202866555e-06,
+      "Intercept": 0.00040055548435375,
+      "Coupling": "DC",
+      "ResponseNode": 1006188,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283764.4575,
+      "SigNum": 532,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 21
+      },
+      "Name": "533-BS21-DV21-P6189",
+      "Desc": "M6189 Program",
+      "Egu": "V",
+      "Slope": 1.6189491619037e-06,
+      "Intercept": 0.00020373753548609,
+      "Coupling": "DC",
+      "ResponseNode": 1006189,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283767.7047,
+      "SigNum": 533,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 22
+      },
+      "Name": "534-BS22-DV22-P6190",
+      "Desc": "M6190 Program",
+      "Egu": "V",
+      "Slope": 1.6190792874052e-06,
+      "Intercept": -0.00010922912470245,
+      "Coupling": "DC",
+      "ResponseNode": 1006190,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283770.9524,
+      "SigNum": 534,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 23
+      },
+      "Name": "535-BS23-DV23-P6191",
+      "Desc": "M6191 Program",
+      "Egu": "V",
+      "Slope": 1.6188691748316e-06,
+      "Intercept": 0.00010619544348981,
+      "Coupling": "DC",
+      "ResponseNode": 1006191,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283774.1999,
+      "SigNum": 535,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 24
+      },
+      "Name": "536-BS24-DV24-P6192",
+      "Desc": "M6192 Program",
+      "Egu": "V",
+      "Slope": 1.6190665382911e-06,
+      "Intercept": 0.00013886115869515,
+      "Coupling": "DC",
+      "ResponseNode": 1006192,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283777.4473,
+      "SigNum": 536,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 25
+      },
+      "Name": "537-BS25-DV25-P6193",
+      "Desc": "M6193 Program",
+      "Egu": "V",
+      "Slope": 1.6191915307287e-06,
+      "Intercept": -1.1515439260195e-05,
+      "Coupling": "DC",
+      "ResponseNode": 1006193,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283780.6947,
+      "SigNum": 537,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 26
+      },
+      "Name": "538-BS26-DV26-P6194",
+      "Desc": "M6194 Program",
+      "Egu": "V",
+      "Slope": 1.6193769525072e-06,
+      "Intercept": 0.00033293896732761,
+      "Coupling": "DC",
+      "ResponseNode": 1006194,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283783.9419,
+      "SigNum": 538,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 27
+      },
+      "Name": "539-BS27-DV27-P6195",
+      "Desc": "M6195 Program",
+      "Egu": "V",
+      "Slope": 1.6194825881706e-06,
+      "Intercept": -0.00016080780750166,
+      "Coupling": "DC",
+      "ResponseNode": 1006195,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283787.1893,
+      "SigNum": 539,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 28
+      },
+      "Name": "540-BS28-DV28-P8721",
+      "Desc": "M8721 Program",
+      "Egu": "V",
+      "Slope": 1.6192433392906e-06,
+      "Intercept": 0.00010517193566979,
+      "Coupling": "DC",
+      "ResponseNode": 1008721,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283790.4369,
+      "SigNum": 540,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 29
+      },
+      "Name": "541-BS29-DV29-P8722",
+      "Desc": "M8722 Program",
+      "Egu": "V",
+      "Slope": 1.61901039227e-06,
+      "Intercept": 0.00022032701297844,
+      "Coupling": "DC",
+      "ResponseNode": 1008722,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283793.6841,
+      "SigNum": 541,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 30
+      },
+      "Name": "542-BS30-DV30-P8723",
+      "Desc": "M8723 Program",
+      "Egu": "V",
+      "Slope": 1.6194547947257e-06,
+      "Intercept": -2.3108996395805e-05,
+      "Coupling": "DC",
+      "ResponseNode": 1008723,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283796.9315,
+      "SigNum": 542,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 31
+      },
+      "Name": "543-BS31-DV31-V8721",
+      "Desc": "M8721 Voice Coil",
+      "Egu": "V",
+      "Slope": 1.6193240886065e-07,
+      "Intercept": 3.0135010478044002e-05,
+      "Coupling": "DC",
+      "ResponseNode": 2008721,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283800.1791,
+      "SigNum": 543,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    },
+    {
+      "Address": {
+        "Chassis": 17,
+        "Channel": 32
+      },
+      "Name": "544-BS32-DV32-V8722",
+      "Desc": "M8722 Voice Coil",
+      "Egu": "V",
+      "Slope": 1.6193217198366e-07,
+      "Intercept": 3.9534592506825e-05,
+      "Coupling": "DC",
+      "ResponseNode": 2008722,
+      "ResponseDirection": 0,
+      "Type": 0,
+      "LastCal": 1715283803.4264,
+      "SigNum": 544,
+      "ReferenceNode": 0,
+      "ReferenceDirection": 0
+    }
+  ],
+  "Chassis": [
+    {
+      "Chassis": 17,
+      "Dat": [
+        "mic-test-CH17-20240514-154925.dat"
+      ]
+    }
+  ]
+}
