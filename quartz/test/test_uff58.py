@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from .. import open
+from ..uff import Dir
 
 _datadir = Path(__file__).parent
 
@@ -17,6 +18,8 @@ class TestUFF(unittest.TestCase):
     def test_iter(self):
         infos = list(self.u)
         self.assertEqual(infos[0]['id1'], 'Mic 01.0Scalar')
+        self.assertEqual(infos[0]['respnode'], 0)
+        self.assertEqual(infos[0]['respdir'], Dir.Xp)
         self.assertEqual(len(infos), 1)
 
     def test_set(self):

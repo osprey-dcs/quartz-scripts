@@ -3,6 +3,7 @@
 https://www.ceas3.uc.edu/sdrluff/
 """
 
+import enum
 import io
 import logging
 from collections import namedtuple
@@ -10,6 +11,15 @@ from collections import namedtuple
 import numpy
 
 from . import DataSet, DataChannel
+
+class Dir(enum.IntEnum):
+    Scalar = 0
+    Xp = 1
+    Yp = 2
+    Zp = 3
+    Xn = -1
+    Yn = -2
+    Zn = -3
 
 __all__ = ('UFF',)
 
@@ -73,11 +83,11 @@ _decode_58line6 = _line_decoder(
         (1, None, None),
         (10, lambda b:b.strip().decode(errors='ignore'), 'respname'),
         (10, int, 'respnode'),
-        (4, int, 'respdir'),
+        (4, lambda b:Dir(int(b)), 'respdir'),
         (1, None, None),
         (10, lambda b:b.strip().decode(errors='ignore'), 'refname'),
         (10, int, 'refnode'),
-        (4, int, 'refdir'),
+        (4, lambda b:Dir(int(b)), 'refdir'),
     ],
 )
 
@@ -181,6 +191,7 @@ class UFF(DataSet):
             info.update({f'id{n+1}':l.decode(errors='ignore') for n,l in enumerate(lines[:5])})
             _log.debug('id1 %s', info['id1'])
 
+            info.update(_decode_58line6(lines[6-1]))
             info.update(_decode_58line7(lines[7-1]))
 
             info.update({f'abscissa_{k}':v for k,v in _decode_58axisline(lines[8-1]).items()})
