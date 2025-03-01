@@ -16,6 +16,8 @@ class TestDat(unittest.TestCase):
 
         self.assertAlmostEqual(c0.max(), 1464.0)
         self.assertAlmostEqual(c0.min(), -2179.0)
+        self.assertAlmostEqual(c1.max(), 3244.0)
+        self.assertAlmostEqual(c1.min(), -4704.0)
 
 class TestQuartz(unittest.TestCase):
     def setUp(self):

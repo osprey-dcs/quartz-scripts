@@ -9,8 +9,6 @@ import struct
 
 import numpy
 
-from . import DataSet
-
 _psc_hdr = struct.Struct('>2sHI')
 
 def _msg_layout(msgid: int, bodylen: int) -> numpy.dtype:
