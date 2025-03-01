@@ -140,6 +140,12 @@ def open(fname: str) -> DataSet:
     """
     F = io.open(str(fname), 'rb')
     try:
+        magic = F.read(2)
+        F.seek(0)
+        if magic==b'PS':
+            from .psc import QuartzRaw
+            return QuartzRaw(F)
+
         magic = F.readline().rstrip()
         F.seek(0)
         if magic[:1]==b'{': # JSON HDR file

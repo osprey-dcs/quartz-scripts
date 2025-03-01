@@ -6,8 +6,11 @@ Specialized for Quartz digitizer msgid
 """
 
 import struct
+from collections import namedtuple
 
 import numpy
+
+from . import DataSet, DataChannel
 
 _psc_hdr = struct.Struct('>2sHI')
 
@@ -92,3 +95,37 @@ def get_chan(F: numpy.ndarray, chan: int) -> numpy.ndarray:
     S32 = S32.view('>i4') # (npkt, nsamp_per_chan, 1)
 
     return S32.astype('f4').flatten()
+
+SetInfo = namedtuple("SetInfo", ['idx', 'info'])
+
+class QuartzRaw(DataSet):
+    def __init__(self, file):
+        try:
+            self.__data = D = read_dat(file)
+        finally:
+            file.close()
+
+        assert D['samp'].shape[2:]==(32, 3)
+        samp_per_pkt = D['samp'].shape[1]
+        # times of first sample in each packet
+        T = D['sec'] + D['ns']*1e-9
+        dT = numpy.diff(T).mean() / samp_per_pkt
+        # TODO: account for extra samp_per_pkt-1
+
+        self._index = []
+        for n in range(1, 33): # 1's index
+            self._index.append(SetInfo(
+                idx=n,
+                info={
+                    'abscissa_min': 0.0,
+                    'abscissa_inc': dT,
+                },
+            ))
+
+    def _read_set(self, idx:int):
+        _idx, info = self._index[idx]
+        chan = get_chan(self.__data, idx)
+
+        chan = chan.view(DataChannel)
+        chan._info = info
+        return chan
