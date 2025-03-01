@@ -13,3 +13,4 @@
 *.hdr
 *.tar.*
 __pycache__/
+dist/

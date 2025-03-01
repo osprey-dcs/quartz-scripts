@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quartz"
+authors = [
+  { name="Michael Davidsaver", email="mdavidsaver@ospreydcs.com" },
+]
+description = "Tools for reading Quartz data files"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "numpy",
+  "scipy",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/osprey-dcs/quartz-scripts"
+Issues = "https://github.com/osprey-dcs/quartz-scripts/issues"
+
+[tool.setuptools.packages.find]
+include = ['quartz']
+exclude = ['tools']
+
+[tool.setuptools_scm]

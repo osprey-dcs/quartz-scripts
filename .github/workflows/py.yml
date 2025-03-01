@@ -1,0 +1,32 @@
+name: "py"
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Prepare
+        run: |
+          set -x
+          which python
+          python --version
+          python -m pip install -U pip
+          python -m pip --version
+          python -m pip install --only-binary :all: -U pytest pytest-asyncio pyflakes build numpy scipy
+          python -m pytest --version
+      - name: Lint
+        run: pyflakes quartz
+      - name: Test
+        run: pytest -vv --log-level=DEBUG quartz
+      - name: Build
+        run: python -m build
